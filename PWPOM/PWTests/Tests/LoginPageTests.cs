@@ -1,6 +1,8 @@
 ﻿using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using PWPOM.PWTests.Pages;
+using PWPOM.Test_Data_Classes;
+using PWPOM.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,30 +13,67 @@ namespace PWPOM.PWTests.Tests
 {
     public class LoginPageTests : PageTest
     {
+        Dictionary<string, string> Properties = new Dictionary<string, string>();
+        string? currdir = Directory.GetParent(@"../../../")?.FullName;
+
+        private void ReadConfigSettings()
+        {
+            string fileName = currdir + "/Config Settings/config.properties";
+            string[] lines = File.ReadAllLines(fileName);
+
+            foreach (string line in lines)
+            {
+                if (!string.IsNullOrWhiteSpace(line) && line.Contains('='))
+                {
+                    string[] parts = line.Split('=');
+                    string key = parts[0].Trim();
+                    string value = parts[1].Trim();
+                    Properties[key] = value;
+                }
+            }
+
+        }
+
         [SetUp] 
         public async Task SetUp() 
         {
+            ReadConfigSettings();
             Console.WriteLine("Browser Opened");
             
-            await Page.GotoAsync("http://eaapp.somee.com/", new PageGotoOptions { Timeout = 10000, 
-                    WaitUntil = WaitUntilState.DOMContentLoaded });
+            await Page.GotoAsync(Properties["baseUrl"]);
             
             Console.WriteLine("Page Loaded");
 
         }
 
         [Test]
-        [TestCase("admin", "password")]
-        [TestCase("admin", "xxx")]
-        public async Task LoginTest(string uname, string pwd) 
+        
+        public async Task LoginTest() 
         {
-            LoginPage loginPage = new LoginPage(Page);
+           // LoginPage loginPage = new LoginPage(Page);
+            NewLoginPage loginPage = new (Page);
 
-            await loginPage.ClickLoginLink();
-           
-            await loginPage.Login(uname, pwd);
-           
-            Assert.IsTrue(await loginPage.CheckWelcomeMsg());
+            string? excelFilePath = currdir + "/Test Data/EAApp Data.xlsx";
+            string? sheetName = "Login Data";
+
+            List<EAText> excelDataList = LoginCredDataRead.ReadEAText(excelFilePath, sheetName);
+
+            foreach (var excelData in excelDataList)
+            {
+                string? username = excelData.Username;
+                string? password = excelData.Password;
+
+                await loginPage.ClickLoginLink();
+                await Page.ScreenshotAsync(new()
+                {
+                    Path = currdir + "/Screenshots/ss.png",
+                    FullPage = true
+                }) ;
+                await loginPage.Login(username, password);
+
+                Assert.IsTrue(await loginPage.CheckWelcomeMsg());
+            }
+               
 
         }
     }

@@ -1,10 +1,5 @@
 ﻿using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PWNUnit
 {
@@ -16,7 +11,7 @@ namespace PWNUnit
         public async Task LoginTest()
         {
             Console.WriteLine("Browser Opened");
-            await Page.GotoAsync("http://eaapp.somee.com/", 
+            await Page.GotoAsync("http://eaapp.somee.com/",
                 new PageGotoOptions { Timeout = 3000, WaitUntil = WaitUntilState.DOMContentLoaded });
             Console.WriteLine("Page Loaded");
 
@@ -25,7 +20,7 @@ namespace PWNUnit
             //await loginBtn.ClickAsync();
             //Console.WriteLine("Clicked on Login Button");
 
-            await Page.ClickAsync(selector: "text=Login", new PageClickOptions { Timeout = 3000});
+            await Page.ClickAsync(selector: "text=Login", new PageClickOptions { Timeout = 3000 });
             await Console.Out.WriteLineAsync("Clicked on Login Button");
             await Expect(Page).ToHaveURLAsync("http://eaapp.somee.com/Account/Login");
 

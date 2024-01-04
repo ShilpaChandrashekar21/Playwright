@@ -47,33 +47,17 @@ namespace PWPOM.PWTests.Tests
         }
 
         [Test]
-        
-        public async Task LoginTest() 
+        [TestCase("admin", "password")]
+        [TestCase("admin", "xxx")]
+        public async Task LoginTest(string uname, string pwd) 
         {
-           // LoginPage loginPage = new LoginPage(Page);
-            NewLoginPage loginPage = new (Page);
+            LoginPage loginPage = new LoginPage(Page);
 
-            string? excelFilePath = currdir + "/Test Data/EAApp Data.xlsx";
-            string? sheetName = "Login Data";
-
-            List<EAText> excelDataList = LoginCredDataRead.ReadEAText(excelFilePath, sheetName);
-
-            foreach (var excelData in excelDataList)
-            {
-                string? username = excelData.Username;
-                string? password = excelData.Password;
-
-                await loginPage.ClickLoginLink();
-                await Page.ScreenshotAsync(new()
-                {
-                    Path = currdir + "/Screenshots/ss.png",
-                    FullPage = true
-                }) ;
-                await loginPage.Login(username, password);
-
-                Assert.IsTrue(await loginPage.CheckWelcomeMsg());
-            }
-               
+            await loginPage.ClickLoginLink();
+           
+            await loginPage.Login(uname, pwd);
+           
+            Assert.IsTrue(await loginPage.CheckWelcomeMsg());
 
         }
     }

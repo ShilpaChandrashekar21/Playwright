@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PWPOM.PWTests.Pages
 {
@@ -11,13 +12,13 @@ namespace PWPOM.PWTests.Pages
     {
         private IPage _page;
         private ILocator _loginLink => _page.Locator(selector: "text=Login");
-        private ILocator _inputUsername => _page.GetByLabel("UserName");
+       private ILocator _inputUsername => _page.GetByLabel("UserName");
         private ILocator _inputPassword => _page.GetByLabel("Password");
         private ILocator _btnLogin => _page.Locator(selector: "input", new PageLocatorOptions { HasTextString = "Log in" });
         private ILocator _linkWelcomeMsg => _page.Locator(selector: "text='Hello admin!'");
 
         public NewLoginPage(IPage page) => _page = page;
-       
+
 
         public async Task GotoAsync()
         {

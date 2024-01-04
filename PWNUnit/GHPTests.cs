@@ -1,14 +1,8 @@
-﻿using Microsoft.Playwright;
-using Microsoft.Playwright.NUnit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Playwright.NUnit;
 
 namespace PWNUnit
 {
-    internal class GHPTests :PageTest
+    internal class GHPTests : PageTest
     {
         [SetUp]
         public void Setup()
@@ -51,10 +45,10 @@ namespace PWNUnit
 
             }
         */
-        
-    
+
+
         //PW managed Instance
-       [Test]
+        [Test]
         public async Task Test2()
         {
 
@@ -65,7 +59,7 @@ namespace PWNUnit
 
             string title = await Page.TitleAsync(); // gets title of that page
             Console.WriteLine(title);
-           await Expect(Page).ToHaveTitleAsync("Google");
+            await Expect(Page).ToHaveTitleAsync("Google");
 
             await Page.GetByTitle("Search").FillAsync("hp laptop");
             Console.WriteLine("Typed");
@@ -73,12 +67,12 @@ namespace PWNUnit
             await Page.GetByText("Google Search").Last.ClickAsync();
             Console.WriteLine("Clicked");
 
-          //  await Page.Locator(".btnK").ClickAsync();
+            //  await Page.Locator(".btnK").ClickAsync();
             /*title = await Page.TitleAsync(); // gets title of that page
             Console.WriteLine(title);*/
 
             //Assert.That(title.Contains("hp"));
-           await Expect(Page).ToHaveTitleAsync("hp laptop - Google Search");
+            await Expect(Page).ToHaveTitleAsync("hp laptop - Google Search");
         }
     }
 }

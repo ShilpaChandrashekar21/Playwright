@@ -33,7 +33,7 @@ namespace PWPOM.PWTests.Pages
 
         public async Task ClickLoginLink()
         {
-            await _linkWelcomeMsg.ClickAsync();
+            await _loginLink.ClickAsync();
         }
 
         public async Task Login(string uname, string pwd)

@@ -4,27 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PWPOM.PWTests.Pages
 {
-    internal class LoginPage
+    internal class NewLoginPage
     {
         private IPage _page;
-        private ILocator _loginLink;
-        private ILocator _inputUsername;
-        private ILocator _inputPassword;
-        private ILocator _btnLogin;
-        private ILocator _linkWelcomeMsg;
+        private ILocator _loginLink => _page.Locator(selector: "text=Login");
+       private ILocator _inputUsername => _page.GetByLabel("UserName");
+        private ILocator _inputPassword => _page.GetByLabel("Password");
+        private ILocator _btnLogin => _page.Locator(selector: "input", new PageLocatorOptions { HasTextString = "Log in" });
+        private ILocator _linkWelcomeMsg => _page.Locator(selector: "text='Hello admin!'");
 
-        public LoginPage(IPage page) 
-        {
-            _page = page;
-            _loginLink = _page.Locator(selector: "text=Login");
-            _inputUsername = _page.GetByLabel("UserName");
-            _inputPassword = _page.GetByLabel("Password");
-            _btnLogin = _page.Locator(selector: "input", new PageLocatorOptions { HasTextString = "Log in" });
-            _linkWelcomeMsg = _page.Locator(selector: "text='Hello admin!'");
-        }
+        public NewLoginPage(IPage page) => _page = page;
 
         public async Task GotoAsync()
         {
@@ -33,7 +26,7 @@ namespace PWPOM.PWTests.Pages
 
         public async Task ClickLoginLink()
         {
-            await _loginLink.ClickAsync();
+            await _linkWelcomeMsg.ClickAsync();
         }
 
         public async Task Login(string uname, string pwd)
@@ -48,8 +41,5 @@ namespace PWPOM.PWTests.Pages
             bool IsWelMsgVisible = await _linkWelcomeMsg.IsVisibleAsync();
             return IsWelMsgVisible;
         }
-
-       
-
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.Playwright;
 //playwright setup
 //using - automatically gc cleans if the instance is not in use
 //await - async operations
- using var playwright = await Playwright.CreateAsync();
+using var playwright = await Playwright.CreateAsync();
 
 //launch browser
 await using var browser = await playwright.Chromium.LaunchAsync();

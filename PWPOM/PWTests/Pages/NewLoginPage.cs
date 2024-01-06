@@ -20,9 +20,9 @@ namespace PWPOM.PWTests.Pages
         public NewLoginPage(IPage page) => _page = page;
 
 
-        public async Task GotoAsync()
+        public async Task GotoAsync(string url)
         {
-            await _page.GotoAsync("http://eaapp.somee.com/");
+            await _page.GotoAsync(url);
         }
 
         public async Task ClickLoginLink()
